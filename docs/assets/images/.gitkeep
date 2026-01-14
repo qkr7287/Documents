@@ -1,0 +1,7 @@
+# 이미지 파일 저장 폴더
+
+이 폴더는 문서에 사용되는 이미지 파일들을 저장합니다.
+
+## 구조
+- `flutter/authentication/google-login/` - Google 로그인 관련 이미지
+- `flutter/authentication/kakao-login/` - Kakao 로그인 관련 이미지
