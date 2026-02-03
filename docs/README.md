@@ -10,6 +10,9 @@ docs/
 │   └── authentication/
 │       ├── google-login.md      # Google 로그인 구현 가이드
 │       └── kakao-login.md       # Kakao 로그인 구현 가이드
+├── devops/
+│   └── ci-cd/
+│       └── README.md             # CI/CD 문서 인덱스
 ├── assets/
 │   └── images/                  # 문서에 사용되는 이미지 파일
 │       └── flutter/
@@ -25,6 +28,10 @@ docs/
 - **인증 (Authentication)**
   - [Google 로그인](./flutter/authentication/google-login.md)
   - [Kakao 로그인](./flutter/authentication/kakao-login.md)
+
+### DevOps
+- **CI/CD**
+  - [CI/CD 인덱스](./devops/ci-cd/README.md)
 
 ## 문서 작성 가이드
 
