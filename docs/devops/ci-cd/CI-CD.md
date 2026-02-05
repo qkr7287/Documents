@@ -185,9 +185,7 @@ main에 **직접 push**를 막고, **Pull Request를 통한 merge만** 허용하
 저장소/조직에 따라 **Branch protection rules**로만 설정할 수도 있습니다.
 
 - **Settings** → **Branches** → **Branch protection rules** → **Add rule**.
-- **Branch name pattern**: `main`.
-- **Allow force pushes**: 체크 해제.
-- **Allow direct pushes**: 해제하거나, "Restrict who can push" 로 특정 역할만 허용.
+- **사진과 같이 세팅**
 
 
 ### 2-3. 동작 확인
