@@ -28,7 +28,40 @@ GitHub Actions + Self-hosted Runner + Rulesets를 이용해 **main 브랜치 직
 
 그림으로 보면 아래와 같습니다.
 
-![전체 아키텍처](images/01-overview.png)
+<!-- ![전체 아키텍처](../../assets/images/devops/ci-cd/01-overview.png) -->
+```mermaid
+flowchart TB
+    subgraph Dev["개발자"]
+        A[dev 브랜치 작업]
+        B[PR 생성]
+    end
+
+    subgraph GitHub["GitHub"]
+        C[(main 브랜치)]
+        D[Rulesets\main 직접 push 차단]
+        E[Actions\nDeploy 워크플로우]
+    end
+
+    subgraph Runner["Self-hosted Runner (16번)"]
+        F[Git pull]
+        G[Docker Compose build]
+        H[Docker Compose up]
+    end
+
+    subgraph Server["서버 (Docker)"]
+        I[full\n5200, 5201, 5202]
+        J[webhost-only\n5203]
+    end
+
+    A --> B
+    B --> C
+    D -- X 차단됨 --> C
+    C --> E
+    E --> Runner
+    F --> G --> H
+    H --> I
+    H --> J
+```
 
 > **그림 1.** 개발자 → dev 브랜치 작업 → PR → main merge → GitHub Actions가 Self-hosted Runner에서 배포 실행 → 서버 Docker 컨테이너 갱신
 
