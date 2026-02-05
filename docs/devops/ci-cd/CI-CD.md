@@ -26,9 +26,10 @@ GitHub Actions + Self-hosted Runner + Rulesets를 이용해 **main 브랜치 직
 | **Rulesets** | main 브랜치에 **직접 push 금지**, 반드시 **Pull Request**를 통한 merge만 허용 |
 | **Deploy 워크플로우** | 서버에서 `git pull` → `docker compose build` → `docker compose up` 으로 자동 배포 |
 
-그림으로 보면 아래와 같습니다.
+---
 
-<!-- ![전체 아키텍처](../../assets/images/devops/ci-cd/01-overview.png) -->
+## 전체 흐름도
+
 ```mermaid
 flowchart TB
     subgraph Dev["개발자"]
@@ -63,30 +64,6 @@ flowchart TB
     H --> J
 ```
 
-> **그림 1.** 개발자 → dev 브랜치 작업 → PR → main merge → GitHub Actions가 Self-hosted Runner에서 배포 실행 → 서버 Docker 컨테이너 갱신
-
----
-
-## 전체 흐름도
-
-```mermaid
-flowchart LR
-    subgraph Dev["개발자"]
-        A[dev 브랜치에서 작업]
-        B[PR 생성]
-    end
-    subgraph GitHub["GitHub"]
-        C[main merge]
-        D[Actions 트리거]
-    end
-    subgraph Server["Self-hosted 서버"]
-        E[git pull]
-        F[docker compose build]
-        G[docker compose up]
-    end
-    A --> B --> C --> D --> E --> F --> G
-```
-
 - **Mermaid**가 지원되는 뷰어(GitHub, VS Code 등)에서는 위 다이어그램이 렌더링됩니다.
 - 텍스트만으로 흐름을 이해할 수 있도록, 아래에 동일 내용을 단계로 적었습니다.
 
@@ -99,9 +76,6 @@ flowchart LR
 | 5 | Runner(서버) | 서버의 저장소 경로에서 `git pull` → `docker compose build` → `docker compose up --force-recreate` |
 | 6 | 서버 | 새 이미지로 컨테이너 재생성 → 배포 완료 |
 
-![배포 흐름 단계](images/02-flow.png)
-
-> **그림 2.** PR merge 후 Actions → Runner → 서버에서 배포가 실행되는 순서
 
 ---
 
@@ -123,9 +97,9 @@ flowchart LR
 2. **New self-hosted runner** 클릭.
 3. OS를 **Linux**로 선택하고, 표시되는 명령어를 **서버에서** 실행합니다.
 
-![Runner 추가 화면](images/03-runner-new.png)
+![Runner 추가 화면](../../assets/images/devops/ci-cd/01-runner-new.png)
 
-> **그림 3.** Settings → Actions → Runners → New self-hosted runner
+> **그림 1.** Settings → Actions → Runners → New self-hosted runner
 
 예시 (버전/URL은 GitHub에서 안내하는 최신 값 사용):
 
@@ -149,10 +123,7 @@ tar xzf ./actions-runner-linux-x64-2.xxx.x.tar.gz
 - **Runner name**: Enter로 호스트명(예: `agicsai-desktop`) 또는 원하는 이름.
 - **Additional labels**: 필요 시 입력, 없으면 Enter로 스킵.
 - **Work folder**: Enter로 `_work` 사용.
-
-![Runner config 완료](images/04-runner-config.png)
-
-> **그림 4.** config.sh 실행 후 "Runner successfully added" 메시지
+> **config.sh 실행 후 "Runner successfully added" 메시지**
 
 ### 1-3. 서비스로 설치 및 시작
 
@@ -169,9 +140,7 @@ sudo ./svc.sh start
 - 서비스 이름 예: `actions.runner.qkr7287-3d-widget-web-host.agicsai-desktop.service`
 - **Run as user**: `agics-ai` (같은 사용자로 고정해 두면, 배포 경로 권한과 맞추기 쉬움)
 
-![Runner 서비스 상태](images/05-runner-service.png)
-
-> **그림 5.** `systemctl status` 로 서비스가 active(running)인지 확인
+> **`systemctl status` 로 서비스가 active(running)인지 확인**
 
 ### 1-4. 배포 경로 권한
 
@@ -187,9 +156,8 @@ sudo chown -R agics-ai:agics-ai /home/agics-ai/github/3d-widget-web-host
 
 - **Settings** → **Actions** → **Runners** 에서 방금 추가한 runner가 **Idle(녹색)** 으로 보이면 정상입니다.
 
-![Runners 목록 Idle](images/06-runner-idle.png)
 
-> **그림 6.** Self-hosted runner가 Idle 상태로 표시됨
+> **Self-hosted runner가 Idle 상태로 표시됨**
 
 ---
 
@@ -203,9 +171,9 @@ main에 **직접 push**를 막고, **Pull Request를 통한 merge만** 허용하
 2. **New ruleset** 클릭.
 3. **Target**: "Branch" 선택 후, 브랜치 이름에 `main` 입력 (또는 "Include all branches" 후 나중에 main만 규칙 적용).
 
-![Rulesets 생성](images/07-ruleset-new.png)
+![Rulesets 생성](../../assets/images/devops/ci-cd/02-ruleset-new.png)
 
-> **그림 7.** Rules → Rulesets → New ruleset
+> **그림 2.** Rules → Rulesets → New ruleset
 
 ### 2-2. 규칙 추가: Bypass list / Branch protection
 
@@ -221,9 +189,6 @@ main에 **직접 push**를 막고, **Pull Request를 통한 merge만** 허용하
 - **Allow force pushes**: 체크 해제.
 - **Allow direct pushes**: 해제하거나, "Restrict who can push" 로 특정 역할만 허용.
 
-![Branch protection](images/08-branch-protection.png)
-
-> **그림 8.** main 브랜치 보호: PR 필수, 직접 push 제한
 
 ### 2-3. 동작 확인
 
@@ -300,9 +265,8 @@ git push origin dev
 2. **base: main** ← **compare: dev** 선택.
 3. 제목/설명 작성 후 **Create pull request**.
 
-![PR 생성](images/09-pr-create.png)
 
-> **그림 9.** dev → main 으로 PR 생성
+> **dev → main 으로 PR 생성**
 
 ### 4-3. Merge 후 자동 배포
 
@@ -310,7 +274,7 @@ git push origin dev
 2. **Actions** 탭에서 **Deploy (self-hosted)** 워크플로우가 자동으로 실행되는지 확인.
 3. 성공(초록색)이면, 서버의 Docker 컨테이너가 새 코드로 갱신된 상태입니다.
 
-![Actions 성공](images/10-actions-success.png)
+![Actions 성공](../../assets/images/devops/ci-cd/03-actions-success.png)
 
 > **그림 10.** Deploy (self-hosted) 워크플로우 성공
 
