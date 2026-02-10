@@ -178,6 +178,11 @@ SHA-1 인증서 지문은 [Android 키 해시 확인 방법](../../android-key-h
 
 **중요**: 디버그 빌드와 릴리즈 빌드의 SHA-1이 다르므로, 개발 중에는 디버그 SHA-1을, 배포 시에는 릴리즈 SHA-1도 함께 등록해야 합니다.
 
+> **중요 (Play Store 배포 시)**  
+> Google Play Store에 업로드하면(특히 **Play App Signing**을 사용하는 경우) **스토어에 올라간 앱의 서명 인증서 SHA-1**이 로컬(디버그/릴리즈 키스토어)와 **달라질 수 있습니다.**  
+> 그래서 **디버그에서는 잘 되다가**, Play Store 업로드 후에는 **Google 로그인(소셜 로그인)이 갑자기 실패**할 수 있어요.  
+> 이 경우 **Google Cloud Console의 Android OAuth 클라이언트**에 **Play Console의 “앱 서명 키(App signing key)” SHA-1**도 **추가로 등록**해야 합니다.
+
 ## Flutter 패키지 추가
 
 ### 1) 패키지 설치
@@ -263,6 +268,7 @@ Future<void> signOutGoogle() async {
 
 ### 2) 체크리스트
 - **SHA-1 인증서 지문이 정확히 등록**되어 있는지(디버그/릴리즈 혼동 가장 흔함)
+- **(Play Store 배포 시) Play App Signing의 SHA-1도 등록**되어 있는지 (디버그에서 되다가 업로드 후 실패하는 경우 흔함)
 - **패키지명이 정확히 일치**하는지(applicationId 포함)
 - **Android OAuth 클라이언트 ID**가 올바르게 생성되었는지
 - **Web OAuth 클라이언트 ID**가 생성되었는지 (중요!)
