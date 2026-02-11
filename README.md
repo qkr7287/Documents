@@ -11,9 +11,12 @@
   - 인증 (Authentication)
     - [Google 로그인](./docs/flutter/authentication/google-login.md)
     - [Kakao 로그인](./docs/flutter/authentication/kakao-login.md)
+- **3D**
+  - 웹 3D
+    - [3D 로딩과 하드웨어 이해하기](./docs/3d/loading-and-hardware.md)
 - **DevOps**
   - CI/CD
-    - [CI/CD 인덱스](./docs/devops/ci-cd/ci-cd.md)
+    - [Self-hosted CI/CD 가이드](./docs/devops/ci-cd/ci-cd.md)
 
 ## 🚀 시작하기
 

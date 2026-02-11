@@ -10,9 +10,11 @@ docs/
 │   └── authentication/
 │       ├── google-login.md      # Google 로그인 구현 가이드
 │       └── kakao-login.md       # Kakao 로그인 구현 가이드
+├── 3d/
+│   └── loading-and-hardware.md   # 웹 3D 로딩과 하드웨어 이해
 ├── devops/
 │   └── ci-cd/
-│       └── README.md             # CI/CD 문서 인덱스
+│       └── ci-cd.md              # CI/CD 문서
 ├── assets/
 │   └── images/                  # 문서에 사용되는 이미지 파일
 │       └── flutter/
@@ -29,9 +31,13 @@ docs/
   - [Google 로그인](./flutter/authentication/google-login.md)
   - [Kakao 로그인](./flutter/authentication/kakao-login.md)
 
+### 3D
+- **웹 3D**
+  - [3D 로딩과 하드웨어 이해하기](./3d/loading-and-hardware.md)
+
 ### DevOps
 - **CI/CD**
-  - [CI/CD 인덱스](./devops/ci-cd/README.md)
+  - [Self-hosted CI/CD 가이드](./devops/ci-cd/ci-cd.md)
 
 ## 문서 작성 가이드
 
