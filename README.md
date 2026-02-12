@@ -13,6 +13,7 @@
     - [Kakao 로그인](./docs/flutter/authentication/kakao-login.md)
 - **3D**
   - 웹 3D
+    - [Babylon.js vs Three.js 렌더링 차이 (로직·로딩·장단점)](./docs/3d/babylon-vs-threejs-rendering-differences.md)
     - [3D 로딩과 하드웨어 이해하기](./docs/3d/loading-and-hardware.md)
 - **DevOps**
   - CI/CD

@@ -11,6 +11,7 @@ docs/
 │       ├── google-login.md      # Google 로그인 구현 가이드
 │       └── kakao-login.md       # Kakao 로그인 구현 가이드
 ├── 3d/
+│   ├── babylon-vs-threejs-rendering-differences.md  # Babylon.js vs Three.js 렌더링·로딩 비교
 │   └── loading-and-hardware.md   # 웹 3D 로딩과 하드웨어 이해
 ├── devops/
 │   └── ci-cd/
@@ -33,6 +34,7 @@ docs/
 
 ### 3D
 - **웹 3D**
+  - [Babylon.js vs Three.js 렌더링 차이 (로직·로딩·장단점)](./3d/babylon-vs-threejs-rendering-differences.md)
   - [3D 로딩과 하드웨어 이해하기](./3d/loading-and-hardware.md)
 
 ### DevOps
