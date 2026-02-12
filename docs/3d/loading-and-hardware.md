@@ -44,6 +44,19 @@
 | **중 (보통)** | PBR+그림자+후처리, 1080p~1440p | GTX 1650 / RX 5500급 | **4GB 이상** | **16GB** | 4코어 8스레드 | 내장만 있으면 품질 낮추거나 1080p 고정. 해상도 올리면 VRAM·GPU 부담 ↑ |
 | **상 (무거운)** | 대규모 씬, 다수 조명·그림자·인스턴스, 1440p~4K | RTX 3060 / RX 6600 이상 | **6~8GB 이상** | **32GB** | 6코어 12스레드, 싱글 성능 좋은 것 | 동적 오브젝트·실시간 라이팅 많으면 CPU·GPU 둘 다 여유 있게. |
 
+### 0.3-1 상/중/하 예시 (three.js 공식 예시 페이지)
+
+아래 링크들은 **실제로 three.js로 구현된 페이지**라서, “하/중/상”을 체감하기 좋습니다. (기기/브라우저/해상도에 따라 체감은 달라질 수 있음)
+
+| 구분 | 예시(three.js) | 왜 이 티어로 보기 좋은가 |
+|------|----------------|--------------------------|
+| **하 (가벼운)** | [webgl_geometries](https://threejs.org/examples/webgl_geometries.html) | 단순 지오메트리·재질 위주라 GPU/VRAM 부담이 낮음 |
+| **중 (보통)** | [webgl_loader_gltf](https://threejs.org/examples/webgl_loader_gltf.html) | glTF 로딩 + 환경조명(HDRI)로 “실제 서비스에서 흔한 무게”를 체감 가능 |
+| **상 (무거운)** | [webgl_instancing_performance](https://threejs.org/examples/webgl_instancing_performance.html) / [webgl_postprocessing_unreal_bloom](https://threejs.org/examples/webgl_postprocessing_unreal_bloom.html) / [webgl_shadowmap_performance](https://threejs.org/examples/webgl_shadowmap_performance.html) | 인스턴싱/후처리/그림자는 GPU 연산·VRAM·프레임 안정에 부담이 커서 “상” 체감에 좋음 |
+
+> **팁(비교할 때)**  
+> 같은 PC에서도 **브라우저 창 크기(해상도)**만 바꿔도 체감이 크게 달라집니다. 하/중/상 비교는 가능하면 **동일 해상도(예: 1920×1080)**로 맞추고 보는 게 좋아요.
+
 ### 0.4 한 줄 공식
 
 - **스펙 → 씬:** “**VRAM + GPU 티어**로 먼저 하/중/상을 정하고, **CPU·RAM**이 그 티어에 맞는지 보면 **이 정도 3D는 로드 가능하다/어렵다**라고 말할 수 있다.”

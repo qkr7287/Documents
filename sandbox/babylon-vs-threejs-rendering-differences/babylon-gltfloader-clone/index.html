@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Babylon glTF + HDR IBL</title>
+    <style>
+      html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #000; }
+      canvas { width: 100%; height: 100%; display: block; touch-action: none; }
+      #hud {
+        position: fixed;
+        left: 12px;
+        top: 12px;
+        padding: 8px 10px;
+        color: #fff;
+        background: rgba(0,0,0,0.45);
+        font: 12px/1.4 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+        border-radius: 8px;
+      }
+      #hud code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+      #hud .row { margin-top: 4px; }
+      #hud label { display: inline-block; min-width: 60px; }
+      #hud input[type="range"] { width: 120px; vertical-align: middle; }
+      #hud span.value { display: inline-block; width: 32px; text-align: right; }
+      #hud input[type="checkbox"] { vertical-align: middle; margin-right: 4px; }
+      #loadingOverlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        color: #fff; font: 14px/1.4 system-ui, sans-serif; z-index: 9999;
+      }
+      #loadingOverlay.hidden { display: none; }
+      #loadingBar {
+        width: 240px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 2px;
+        overflow: hidden; margin-top: 12px;
+      }
+      #loadingBarFill {
+        height: 100%; width: 30%; background: #fff; border-radius: 2px;
+        animation: loadingBar 1.2s ease-in-out infinite;
+      }
+      @keyframes loadingBar {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(400%); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loadingOverlay" aria-busy="true">
+      <span>Loading scene…</span>
+      <div id="loadingBar"><div id="loadingBarFill"></div></div>
+    </div>
+    <div id="hud">
+      Drag: rotate · Wheel: zoom<br/>
+      HDR: <code>/env/royal_esplanade_2k.hdr</code>
+      <div class="row"><span>로딩 (씬·프레임 안정):</span> <span id="loadingTimeDisplay">--</span>s</div>
+      <div class="row"><span>FPS:</span> <span id="fpsDisplay">--</span></div>
+      <div class="row">
+        <label for="exposureSlider">Exposure</label>
+        <input
+          id="exposureSlider"
+          type="range"
+          min="0.0"
+          max="2.0"
+          step="0.01"
+        />
+        <span id="exposureValue" class="value"></span>
+      </div>
+      <div class="row">
+        <label for="contrastSlider">Contrast</label>
+        <input
+          id="contrastSlider"
+          type="range"
+          min="0.5"
+          max="2.0"
+          step="0.01"
+        />
+        <span id="contrastValue" class="value"></span>
+      </div>
+      <div class="row">
+        <label for="envIntensitySlider">Env</label>
+        <input
+          id="envIntensitySlider"
+          type="range"
+          min="0.2"
+          max="1.5"
+          step="0.01"
+          title="Environment intensity (반사 강도). 낮추면 더 리얼."
+        />
+        <span id="envIntensityValue" class="value"></span>
+      </div>
+      <div class="row">
+        <label for="reflectionSlider">Reflection</label>
+        <input
+          id="reflectionSlider"
+          type="range"
+          min="0.0"
+          max="1.2"
+          step="0.01"
+          title="반사광만 조절 (radiance 스케일). 디퓨즈/밝기 무변경. 0=반사 없음."
+        />
+        <span id="reflectionValue" class="value"></span>
+      </div>
+      <div class="row">
+        <input type="checkbox" id="imageProcessingToggle" title="Babylon Image Processing (감마/톤매핑 등). 끄면 커스텀 ACES만 적용" />
+        <label for="imageProcessingToggle">Image Processing</label>
+      </div>
+      <div class="row">
+        <input type="checkbox" id="toneMappingToggle" title="톤 매핑 (ACES). IP 켜져 있을 때만 적용" />
+        <label for="toneMappingToggle">Tone mapping (ACES)</label>
+      </div>
+      <div class="row">
+        <label for="ipExposureSlider">IP Exposure</label>
+        <input id="ipExposureSlider" type="range" min="0.5" max="2" step="0.01" title="Image Processing 노출" />
+        <span id="ipExposureValue" class="value"></span>
+      </div>
+      <div class="row">
+        <label for="ipContrastSlider">IP Contrast</label>
+        <input id="ipContrastSlider" type="range" min="0.5" max="2.5" step="0.01" title="Image Processing 대비" />
+        <span id="ipContrastValue" class="value"></span>
+      </div>
+      <div class="row">
+        <label for="sharpenSlider">Sharpen</label>
+        <input
+          id="sharpenSlider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          title="샤프닝 강도 (edgeAmount). 0=끔"
+        />
+        <span id="sharpenValue" class="value"></span>
+      </div>
+    </div>
+    <canvas id="renderCanvas"></canvas>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
+
